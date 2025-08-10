@@ -1,0 +1,29 @@
+<div class="mb-2">
+  <!-- label -->
+  @if (label()) {
+    <label class="block mb-2" [for]="controlName()">
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500">*</span>
+      }
+    </label>
+  }
+
+  <!-- input -->
+  <input
+    pInputText
+    class="w-full"
+    pattern="^[0-9]*$"
+    #mobileNumberInput
+    [id]="controlName()"
+    [invalid]="getErrorMessage"
+    [attr.inputmode]="'numeric'"
+    [formControlName]="controlName()"
+    (keypress)="allowOnlyNumbers($event)"
+  />
+
+  <!-- validation -->
+  @if (getErrorMessage) {
+    <small class="block text-red-500 mt-1">{{ getErrorMessage }}</small>
+  }
+</div>

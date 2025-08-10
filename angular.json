@@ -32,9 +32,10 @@
                             }
                         ],
                         "styles": [
-                            "src/assets/styles.scss"
+                            "src/assets/styles.scss",
+                            "node_modules/intl-tel-input/build/css/intlTelInput.min.css"
                         ],
-                        "scripts": []
+                        "scripts": ["node_modules/intl-tel-input/build/js/utils.js"]
                     },
                     "configurations": {
                         "production": {

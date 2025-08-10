@@ -1,0 +1,30 @@
+<div class="mb-2">
+  <!-- label -->
+  @if (label()) {
+    <label class="block mb-2" [for]="controlName()">
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500">*</span>
+      }
+    </label>
+  }
+
+  <!-- date input -->
+  <p-datepicker
+    class="w-full"
+    [showIcon]="true"
+    [id]="controlName()"
+    [hourFormat]="'12'"
+    inputId="icondisplay"
+    [iconDisplay]="'input'"
+    [showTime]="timeSelection()"
+    [invalid]="isControlInvalid"
+    [placeholder]="getPlaceholder"
+    [formControlName]="controlName()"
+  />
+
+  <!-- validation -->
+  @if (isControlInvalid) {
+    <small class="block text-red-500 mt-1">*Please select the {{ label().toLowerCase() }}. </small>
+  }
+</div>

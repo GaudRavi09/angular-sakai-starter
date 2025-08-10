@@ -1,0 +1,35 @@
+<div class="mb-2">
+  <!-- label -->
+  @if (label()) {
+    <label class="block mb-2" [for]="controlName()">
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500">*</span>
+      }
+    </label>
+  }
+
+  <!-- input -->
+  <p-iconField>
+    @if (iconName()) {
+      <p-inputIcon [class]="'pi ' + iconName" />
+    }
+
+    <input
+      pInputText
+      class="w-full"
+      [pattern]="pattern"
+      [id]="controlName()"
+      [invalid]="getErrorMessage"
+      [placeholder]="getPlaceholder"
+      [formControlName]="controlName()"
+      (keypress)="allowOnlyNumbers($event)"
+      [attr.inputmode]="allowDecimal() ? 'decimal' : 'numeric'"
+    />
+  </p-iconField>
+
+  <!-- validation -->
+  @if (getErrorMessage) {
+    <small class="block text-red-500 mt-1"> {{ getErrorMessage }} </small>
+  }
+</div>

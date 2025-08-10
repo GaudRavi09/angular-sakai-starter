@@ -1,0 +1,23 @@
+::ng-deep {
+    .iti.iti--allow-dropdown {
+        width: 100% !important;
+    }
+
+    &:focus-visible {
+        outline: none !important;
+    }
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .iti__search-input {
+        padding: 8px !important;
+        background: transparent !important;
+    }
+
+    .iti__dropdown-content {
+        z-index: 99 !important;
+        border-radius: 8px !important;
+    }
+}
