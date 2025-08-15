@@ -1,23 +1,20 @@
 import { Routes } from '@angular/router';
-import { AppLayout } from './app/layout/component/app.layout';
-import { Dashboard } from './app/pages/dashboard/dashboard';
-import { Documentation } from './app/pages/documentation/documentation';
-import { Landing } from './app/pages/landing/landing';
-import { Notfound } from './app/pages/notfound/notfound';
+import { Login } from '@/pages/login/login';
+import { Error } from '@/pages/error/error';
+import { NotFound } from '@/pages/not-found/not-found';
+import { Dashboard } from '@/pages/dashboard/dashboard';
+import { MainLayout } from '@/layout/main-layout/main-layout';
+import { AccessDenied } from '@/pages/access-denied/access-denied';
 
 export const appRoutes: Routes = [
-    {
-        path: '',
-        component: AppLayout,
-        children: [
-            { path: '', component: Dashboard },
-            { path: 'uikit', loadChildren: () => import('./app/pages/uikit/uikit.routes') },
-            { path: 'documentation', component: Documentation },
-            { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') }
-        ]
-    },
-    { path: 'landing', component: Landing },
-    { path: 'notfound', component: Notfound },
-    { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
-    { path: '**', redirectTo: '/notfound' }
+  {
+    path: '',
+    component: MainLayout,
+    children: [{ path: '', component: Dashboard }]
+  },
+  { path: 'login', component: Login },
+  { path: 'error', component: Error },
+  { path: 'not-found', component: NotFound },
+  { path: 'access-denied', component: AccessDenied },
+  { path: '**', redirectTo: '/not-found' }
 ];

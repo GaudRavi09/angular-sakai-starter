@@ -1,0 +1,17 @@
+<div class="layout-wrapper" [ngClass]="containerClass">
+  <!-- top bar -->
+  <app-top-bar />
+
+  <!-- side bar -->
+  <app-side-bar />
+
+  <!-- dynamic routes -->
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet />
+    </div>
+  </div>
+
+  <!-- animation -->
+  <div class="layout-mask animate-fadein"></div>
+</div>
