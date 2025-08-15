@@ -1,10 +1,10 @@
 <div class="mb-2">
   <!-- label -->
   @if (label()) {
-    <label class="block mb-2" [for]="controlName()">
+    <label class="block text-surface-900 dark:text-surface-0 mb-2" [for]="controlName()">
       {{ label() }}
       @if (required()) {
-        <span class="text-red-500">*</span>
+        <span class="text-red-700">*</span>
       }
     </label>
   }
@@ -24,6 +24,6 @@
 
   <!-- validation -->
   @if (getErrorMessage) {
-    <small class="block text-red-500 mt-1">{{ getErrorMessage }}</small>
+    <small class="block text-red-700 mt-1">{{ getErrorMessage }}</small>
   }
 </div>
