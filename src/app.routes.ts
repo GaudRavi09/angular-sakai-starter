@@ -16,5 +16,6 @@ export const appRoutes: Routes = [
   { path: 'error', component: Error },
   { path: 'not-found', component: NotFound },
   { path: 'access-denied', component: AccessDenied },
+  { path: 'users', loadChildren: () => import('./app/pages/users/users.routes') },
   { path: '**', redirectTo: '/not-found' }
 ];

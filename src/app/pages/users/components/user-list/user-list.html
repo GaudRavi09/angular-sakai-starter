@@ -1,0 +1,86 @@
+<p-table
+  #dt
+  [rows]="10"
+  dataKey="id"
+  [columns]="cols"
+  [rowHover]="true"
+  [value]="users()"
+  [paginator]="true"
+  [loading]="loading()"
+  [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 20, 30]"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+>
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <h5 class="m-0">Manage Users</h5>
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input pInputText [formControl]="searchControl" placeholder="Search..." />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template #header>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox />
+      </th>
+
+      <th style="min-width: 16rem">#</th>
+
+      <th pSortableColumn="name" style="min-width: 16rem">
+        Name
+        <p-sortIcon field="name" />
+      </th>
+
+      <th pSortableColumn="email" style="min-width: 8rem">
+        Email
+        <p-sortIcon field="email" />
+      </th>
+
+      <th pSortableColumn="phone" style="min-width: 8rem">
+        Phone
+        <p-sortIcon field="phone" />
+      </th>
+
+      <th pSortableColumn="height" style="min-width: 10rem">
+        Height (cm)
+        <p-sortIcon field="height" />
+      </th>
+
+      <th pSortableColumn="dob" style="min-width: 12rem">
+        DOB
+        <p-sortIcon field="dob" />
+      </th>
+
+      <th style="min-width: 12rem">Action</th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-user>
+    <tr>
+      <td style="width: 3rem">
+        <p-tableCheckbox [value]="user" />
+      </td>
+
+      <td style="min-width: 12rem">{{ user.id }}</td>
+
+      <td style="min-width: 16rem">{{ user.name }}</td>
+
+      <td style="min-width: 16rem">{{ user.email }}</td>
+
+      <td style="min-width: 16rem">{{ user.phone }}</td>
+
+      <td style="min-width: 16rem">{{ user.height }}</td>
+
+      <td style="min-width: 16rem">{{ user.dob | date: 'mediumDate' }}</td>
+
+      <td>
+        <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true" [routerLink]="['/users/edit', user.id]" />
+        <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteUser(user)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

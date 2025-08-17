@@ -1,0 +1,35 @@
+<div class="flex flex-col gap-6">
+  <!-- heading -->
+  <div class="text-xl text-center font-semibold text-gray-800">
+    {{ id() ? 'Update User' : 'Add User' }}
+  </div>
+
+  <!-- form -->
+  <form [formGroup]="userForm()" (ngSubmit)="onSubmit()">
+    <!-- name -->
+    <text-input controlName="name" label="Name" [required]="true" placeholder="Enter full name" />
+
+    <!-- email -->
+    <email-input label="Email Address" controlName="email" [required]="true" [showIcon]="true" />
+
+    <!-- mobile number -->
+    <mobile-input label="Phone Number" controlName="phone" [required]="true" />
+
+    <!-- dob -->
+    <date-input controlName="dob" label="Date of Birth" [required]="true" placeholder="Select date of birth" />
+
+    <!-- height -->
+    <number-input controlName="height" [max]="200" [min]="50" label="Height (cm)" [required]="true" placeholder="Enter height in cm" />
+
+    <!-- password -->
+    <password-input label="Password" controlName="password" [required]="true" />
+
+    <div class="flex justify-end gap-3 mt-6">
+      <!-- cancel buttton -->
+      <p-button routerLink="/users" label="Cancel" icon="pi pi-times" severity="secondary" />
+
+      <!-- save/update button -->
+      <p-button type="submit" [label]="id() ? 'Update' : 'Save'" icon="pi pi-check" [loading]="loading()" />
+    </div>
+  </form>
+</div>
