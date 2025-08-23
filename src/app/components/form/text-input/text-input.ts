@@ -1,6 +1,7 @@
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { input, OnInit, inject, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
@@ -50,5 +51,16 @@ export class TextInput implements OnInit {
   ngOnInit(): void {
     const validators = this.required() ? [Validators.required] : [];
     this.parentFormGroup.addControl(this.controlName(), this.fb.control(this.default(), validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
+  }
+
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
   }
 }
