@@ -52,7 +52,7 @@ export class NumberInput {
 
   get getErrorMessage(): string | null {
     const control = this.control;
-    if (!control || control.valid || !control.touched) return null;
+    if (control.valid || !control.touched) return null;
 
     const errors = control.errors;
     if (!errors) return null;
@@ -101,20 +101,27 @@ export class NumberInput {
   // allow only integer numbers or decimal numbers
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
+    let filteredValue = input.value;
 
     if (this.allowDecimal()) {
       // allow only numbers and one decimal point
-      input.value = input.value.replace(/[^0-9.]/g, '');
+      filteredValue = filteredValue.replace(/[^0-9.]/g, '');
 
       // ensure only one decimal point
-      const parts = input.value.split('.');
+      const parts = filteredValue.split('.');
 
       if (parts.length > 2) {
-        input.value = parts[0] + '.' + parts.slice(1).join('');
+        filteredValue = parts[0] + '.' + parts.slice(1).join('');
       }
     } else {
       // allow only numbers
-      input.value = input.value.replace(/[^0-9]/g, '');
+      filteredValue = filteredValue.replace(/[^0-9]/g, '');
     }
+
+    // update the input value
+    input.value = filteredValue;
+
+    // update the form control value to trigger validation with filtered value
+    this.control.setValue(filteredValue);
   }
 }

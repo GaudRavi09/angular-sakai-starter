@@ -69,16 +69,15 @@ export class EmailInput implements OnInit {
     this.control.updateValueAndValidity();
   }
 
-  // prevent spaces
-  preventSpace(event: KeyboardEvent): void {
-    if (event.key === ' ') {
-      event.preventDefault();
-    }
-  }
-
   // remove all spaces and convert to lowercase
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/\s+/g, '').toLowerCase();
+    const filteredValue = input.value.replace(/\s+/g, '').toLowerCase();
+
+    // update the input value
+    input.value = filteredValue;
+
+    // update the form control value to trigger validation with filtered value
+    this.control.setValue(filteredValue);
   }
 }
