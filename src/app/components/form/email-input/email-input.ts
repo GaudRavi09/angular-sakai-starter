@@ -1,6 +1,7 @@
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { input, OnInit, inject, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
@@ -55,18 +56,29 @@ export class EmailInput implements OnInit {
     validators.push(Validators.email);
 
     this.parentFormGroup.addControl(this.controlName(), this.fb.control(this.default(), validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
   }
 
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
+  }
+
+  // prevent spaces
   preventSpace(event: KeyboardEvent): void {
-    // prevent spaces in the password input
     if (event.key === ' ') {
       event.preventDefault();
     }
   }
 
-  formatEmailInput(event: Event): void {
+  // remove all spaces and convert to lowercase
+  onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    // remove all spaces and convert to lowercase
     input.value = input.value.replace(/\s+/g, '').toLowerCase();
   }
 }

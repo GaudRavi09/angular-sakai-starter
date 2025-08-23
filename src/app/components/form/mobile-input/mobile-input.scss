@@ -1,4 +1,12 @@
 ::ng-deep {
+    .iti--inline-dropdown .iti__dropdown-content {
+        box-shadow: none !important;
+    }
+
+    .app-dark .iti--inline-dropdown .iti__dropdown-content {
+        background-color: var(--p-surface-800) !important;
+    }
+
     .iti.iti--allow-dropdown {
         width: 100% !important;
     }

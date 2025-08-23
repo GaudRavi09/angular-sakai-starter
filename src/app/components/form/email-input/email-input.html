@@ -21,17 +21,17 @@
       class="w-full"
       [id]="controlName()"
       [readonly]="readonly()"
+      (input)="onInput($event)"
       [attr.inputmode]="'email'"
       [invalid]="isControlInvalid"
       [placeholder]="getPlaceholder"
       (keydown)="preventSpace($event)"
       [formControlName]="controlName()"
-      (input)="formatEmailInput($event)"
     />
   </p-iconField>
 
   <!-- validation -->
   @if (isControlInvalid) {
-    <small class="block text-red-700 mt-1">*Please enter the {{ label().toLowerCase() }}. </small>
+    <small class="block text-red-700 mt-1">*Please enter the valid {{ label().toLowerCase() }}. </small>
   }
 </div>

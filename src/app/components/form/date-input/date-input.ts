@@ -1,5 +1,6 @@
 import { DatePicker } from 'primeng/datepicker';
 import { InputTextModule } from 'primeng/inputtext';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { input, inject, OnInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
@@ -51,5 +52,16 @@ export class DateInput implements OnInit {
     }
 
     this.parentFormGroup.addControl(this.controlName(), this.fb.control('', validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
+  }
+
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
   }
 }

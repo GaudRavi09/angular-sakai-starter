@@ -1,6 +1,7 @@
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { input, inject, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
@@ -74,28 +75,46 @@ export class NumberInput {
     if (this.required()) {
       validators.push(Validators.required);
     }
+
     if (this.min() !== undefined) {
       validators.push(Validators.min(this.min()!));
     }
+
     if (this.max() !== undefined) {
       validators.push(Validators.max(this.max()!));
     }
+
     this.parentFormGroup.addControl(this.controlName(), this.fb.control(this.default(), validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
   }
 
-  allowOnlyNumbers(event: KeyboardEvent): void {
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
+  }
+
+  // allow only integer numbers or decimal numbers
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
     if (this.allowDecimal()) {
-      const input = event.target as HTMLInputElement;
-      if (!/\d/.test(event.key) && event.key !== '.') {
-        event.preventDefault();
-      }
-      if (event.key === '.' && input.value.includes('.')) {
-        event.preventDefault();
+      // allow only numbers and one decimal point
+      input.value = input.value.replace(/[^0-9.]/g, '');
+
+      // ensure only one decimal point
+      const parts = input.value.split('.');
+
+      if (parts.length > 2) {
+        input.value = parts[0] + '.' + parts.slice(1).join('');
       }
     } else {
-      if (!/\d/.test(event.key)) {
-        event.preventDefault();
-      }
+      // allow only numbers
+      input.value = input.value.replace(/[^0-9]/g, '');
     }
   }
 }
