@@ -1,6 +1,7 @@
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { PasswordModule } from 'primeng/password';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { input, inject, OnInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, AbstractControl, ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
@@ -48,6 +49,17 @@ export class PasswordInput implements OnInit {
     validators.push(Validators.minLength(8));
 
     this.parentFormGroup.addControl(this.controlName(), this.fb.control('', validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
+  }
+
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
   }
 
   preventSpace(event: KeyboardEvent): void {
@@ -57,9 +69,9 @@ export class PasswordInput implements OnInit {
     }
   }
 
+  // remove all spaces from the input value
   removeSpace(event: Event) {
     const input = event.target as HTMLInputElement;
-    // remove all spaces from the input value
     input.value = input.value.replace(/\s+/g, '');
   }
 }

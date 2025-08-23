@@ -20,10 +20,10 @@
       class="w-full"
       [pattern]="pattern"
       [id]="controlName()"
-      [invalid]="getErrorMessage"
+      (input)="onInput($event)"
+      [invalid]="!!getErrorMessage"
       [placeholder]="getPlaceholder"
       [formControlName]="controlName()"
-      (keypress)="allowOnlyNumbers($event)"
       [attr.inputmode]="allowDecimal() ? 'decimal' : 'numeric'"
     />
   </p-iconField>

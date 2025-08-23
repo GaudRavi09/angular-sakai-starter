@@ -43,9 +43,13 @@ export class MobileInput implements OnInit {
   }
 
   get getErrorMessage(): string | null {
-    const errors = this.control?.errors;
+    const control = this.control;
+    if (!control || control.valid || !control.touched || this.iti?.isValidNumber()) return null;
 
-    if (errors?.['required']) {
+    const errors = control.errors;
+    if (!errors) return null;
+
+    if (errors['required']) {
       return '*Please enter your mobile number.';
     } else if (!this.iti?.isValidNumber()) {
       return '*Please enter a valid mobile number.';
@@ -54,18 +58,12 @@ export class MobileInput implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    const validators = [];
-    if (this.required()) {
-      validators.push(Validators.required);
-    }
-
-    this.parentFormGroup.addControl(this.controlName(), this.fb.control('', validators));
-  }
-
   private initializeIntlTelInput(): void {
+    // check if input element exists
     if (this.mobileNumberInput) {
       const mobileNumberInput = this.mobileNumberInput.nativeElement;
+
+      // initialize intl-tel-input package
       this.iti = intlTelInput(mobileNumberInput, {
         initialCountry: 'in',
         separateDialCode: true,
@@ -75,12 +73,9 @@ export class MobileInput implements OnInit {
 
       // wait for iti to be fully initialized
       this.iti.promise.then(() => {
-        // if form already has a value (patchValue was called earlier), set it now
-        this.iti.setNumber(this.control?.value);
-
         // keep iti in sync with form control
         const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe((val) => {
-          this.iti.setNumber(val);
+          if (this.control?.value) this.iti.setNumber(val);
           subscription.unsubscribe();
         });
 
@@ -92,10 +87,30 @@ export class MobileInput implements OnInit {
     }
   }
 
-  allowOnlyNumbers(event: KeyboardEvent): void {
-    if (!/\d/.test(event.key)) {
-      event.preventDefault();
+  ngOnInit(): void {
+    const validators = [];
+    if (this.required()) {
+      validators.push(Validators.required);
     }
+
+    this.parentFormGroup.addControl(this.controlName(), this.fb.control('', validators));
+
+    // check validation if there's an value (edit scenario)
+    const subscription = this.control.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(() => {
+      this.checkValidation();
+      subscription.unsubscribe();
+    });
+  }
+
+  checkValidation(): void {
+    this.control.markAsTouched();
+    this.control.updateValueAndValidity();
+  }
+
+  // allow only integer numbers
+  onInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, '');
   }
 
   getPhoneNumber(): string {

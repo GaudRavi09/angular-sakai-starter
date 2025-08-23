@@ -15,10 +15,10 @@
     class="w-full"
     #mobileNumberInput
     [id]="controlName()"
-    [invalid]="getErrorMessage"
+    (input)="onInput($event)"
     [attr.inputmode]="'numeric'"
+    [invalid]="!!getErrorMessage"
     [formControlName]="controlName()"
-    (keypress)="allowOnlyNumbers($event)"
   />
 
   <!-- validation -->
