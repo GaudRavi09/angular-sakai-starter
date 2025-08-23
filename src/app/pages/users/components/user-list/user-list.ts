@@ -61,7 +61,7 @@ export class UserList implements OnInit, OnDestroy {
     this.confirmationService.confirm({
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
-      message: 'Are you sure you want to delete the selected products?',
+      message: `Are you sure you want to delete user "${user.name}"?`,
       accept: async () => {
         try {
           await this.userService.deleteUser(user.id);

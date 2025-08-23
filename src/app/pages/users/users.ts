@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { Component, ViewChild } from '@angular/core';
@@ -8,7 +9,7 @@ import { UserList } from './components/user-list/user-list';
   selector: 'app-users',
   styleUrl: './users.scss',
   templateUrl: './users.html',
-  imports: [UserList, ButtonModule, ToolbarModule, ConfirmDialogModule]
+  imports: [UserList, RouterLink, ButtonModule, ToolbarModule, ConfirmDialogModule]
 })
 export class Users {
   // input, output and  viewchild
