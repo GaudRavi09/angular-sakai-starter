@@ -62,16 +62,15 @@ export class PasswordInput implements OnInit {
     this.control.updateValueAndValidity();
   }
 
-  preventSpace(event: KeyboardEvent): void {
-    // prevent spaces in the password input
-    if (event.key === ' ') {
-      event.preventDefault();
-    }
-  }
-
   // remove all spaces from the input value
-  removeSpace(event: Event) {
+  onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/\s+/g, '');
+    const filteredValue = input.value.replace(/\s+/g, '');
+
+    // update the input value
+    input.value = filteredValue;
+
+    // update the form control value to trigger validation with filtered value
+    this.control.setValue(filteredValue);
   }
 }

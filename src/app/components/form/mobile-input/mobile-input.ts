@@ -44,12 +44,9 @@ export class MobileInput implements OnInit {
 
   get getErrorMessage(): string | null {
     const control = this.control;
-    if (!control || control.valid || !control.touched || this.iti?.isValidNumber()) return null;
+    if (!control.touched) return null;
 
-    const errors = control.errors;
-    if (!errors) return null;
-
-    if (errors['required']) {
+    if (control.errors?.['required']) {
       return '*Please enter your mobile number.';
     } else if (!this.iti?.isValidNumber()) {
       return '*Please enter a valid mobile number.';
@@ -110,7 +107,13 @@ export class MobileInput implements OnInit {
   // allow only integer numbers
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    input.value = input.value.replace(/[^0-9]/g, '');
+    const filteredValue = input.value.replace(/[^0-9]/g, '');
+
+    // update the input value
+    input.value = filteredValue;
+
+    // update the form control value to trigger validation with filtered value
+    this.control.setValue(filteredValue);
   }
 
   getPhoneNumber(): string {
