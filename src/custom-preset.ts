@@ -17,6 +17,11 @@ const CustomPreset = definePreset(Aura, {
       900: '#624b27',
       950: '#3d2f18'
     },
+    formField: {
+      paddingX: '0.9rem',
+      paddingY: '0.9rem',
+      borderRadius: '8px'
+    },
     colorScheme: {
       light: {
         surface: {
@@ -61,10 +66,10 @@ const CustomPreset = definePreset(Aura, {
         },
         formField: {
           shadow: 'none',
-          invalidBorderColor: '{red.600}',
+          invalidBorderColor: '{red.700}',
           hoverBorderColor: '{primary.color}',
           focusBorderColor: '{primary.color}',
-          invalidPlaceholderColor: '{surface.400}'
+          invalidPlaceholderColor: '{surface.500}'
         }
       }
     }

@@ -1,7 +1,7 @@
-<div class="mb-2">
+<div class="mb-4">
   <!-- label -->
   @if (label()) {
-    <label class="block text-surface-900 dark:text-surface-0 mb-2" [for]="controlName()">
+    <label class="block text-surface-900 dark:text-surface-0 mb-1" [for]="controlName()">
       {{ label() }}
       @if (required()) {
         <span class="text-red-700">*</span>
@@ -13,9 +13,11 @@
   <p-datepicker
     class="w-full"
     [showIcon]="true"
-    [id]="controlName()"
     [hourFormat]="'12'"
+    [id]="controlName()"
+    dateFormat="M d, yy"
     inputId="icondisplay"
+    [readonlyInput]="true"
     [iconDisplay]="'input'"
     [showTime]="timeSelection()"
     [invalid]="isControlInvalid"
