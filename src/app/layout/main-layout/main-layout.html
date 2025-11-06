@@ -1,17 +1,18 @@
-<div class="layout-wrapper" [ngClass]="containerClass">
-  <!-- top bar -->
-  <app-top-bar />
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button routerLink="/users/edit/1">
+      <ion-icon aria-hidden="true" name="triangle" />
+      <ion-label>Tab 1</ion-label>
+    </ion-tab-button>
 
-  <!-- side bar -->
-  <app-side-bar />
+    <ion-tab-button routerLink="/users">
+      <ion-icon aria-hidden="true" name="ellipse" />
+      <ion-label>Tab 2</ion-label>
+    </ion-tab-button>
 
-  <!-- dynamic routes -->
-  <div class="layout-main-container">
-    <div class="layout-main">
-      <router-outlet />
-    </div>
-  </div>
-
-  <!-- animation -->
-  <div class="layout-mask animate-fadein"></div>
-</div>
+    <ion-tab-button routerLink="/users/add">
+      <ion-icon aria-hidden="true" name="square" />
+      <ion-label>Tab 3</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

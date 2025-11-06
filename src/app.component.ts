@@ -1,4 +1,6 @@
+import { addIcons } from 'ionicons';
 import { Toast } from 'primeng/toast';
+import * as icons from 'ionicons/icons';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -13,4 +15,8 @@ import { RouterModule } from '@angular/router';
     <p-toast />
   `
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor() {
+    addIcons(icons);
+  }
+}

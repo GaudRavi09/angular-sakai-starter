@@ -106,9 +106,9 @@ export class LayoutService {
   toggleDarkMode(config?: layoutConfig): void {
     const _config = config || this.layoutConfig();
     if (_config.darkTheme) {
-      document.documentElement.classList.add('app-dark');
+      document.documentElement.classList.add('app-dark ion-palette-dark');
     } else {
-      document.documentElement.classList.remove('app-dark');
+      document.documentElement.classList.remove('app-dark ion-palette-dark');
     }
   }
 
