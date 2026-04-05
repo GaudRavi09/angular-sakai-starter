@@ -9,11 +9,14 @@ import { AppMenuitem } from './app.menuitem';
     standalone: true,
     imports: [CommonModule, AppMenuitem, RouterModule],
     template: `<ul class="layout-menu">
-        <ng-container *ngFor="let item of model; let i = index">
-            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
-            <li *ngIf="item.separator" class="menu-separator"></li>
-        </ng-container>
-    </ul> `
+        @for (item of model; track item.label) {
+            @if (!item.separator) {
+                <li app-menuitem [item]="item" [root]="true"></li>
+            } @else {
+                <li class="menu-separator"></li>
+            }
+        }
+    </ul> `,
 })
 export class AppMenu {
     model: MenuItem[] = [];
@@ -47,7 +50,7 @@ export class AppMenu {
             {
                 label: 'Pages',
                 icon: 'pi pi-fw pi-briefcase',
-                routerLink: ['/pages'],
+                path: '/pages',
                 items: [
                     {
                         label: 'Landing',
@@ -57,6 +60,7 @@ export class AppMenu {
                     {
                         label: 'Auth',
                         icon: 'pi pi-fw pi-user',
+                        path: '/auth',
                         items: [
                             {
                                 label: 'Login',
@@ -94,14 +98,17 @@ export class AppMenu {
             },
             {
                 label: 'Hierarchy',
+                path: '/hierarchy',
                 items: [
                     {
                         label: 'Submenu 1',
                         icon: 'pi pi-fw pi-bookmark',
+                        path: '/hierarchy/submenu_1',
                         items: [
                             {
                                 label: 'Submenu 1.1',
                                 icon: 'pi pi-fw pi-bookmark',
+                                path: '/hierarchy/submenu_1/submenu_1_1',
                                 items: [
                                     { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
                                     { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
@@ -111,6 +118,7 @@ export class AppMenu {
                             {
                                 label: 'Submenu 1.2',
                                 icon: 'pi pi-fw pi-bookmark',
+                                path: '/hierarchy/submenu_1/submenu_1_2',
                                 items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }]
                             }
                         ]
@@ -118,10 +126,12 @@ export class AppMenu {
                     {
                         label: 'Submenu 2',
                         icon: 'pi pi-fw pi-bookmark',
+                        path: '/hierarchy/submenu_2',
                         items: [
                             {
                                 label: 'Submenu 2.1',
                                 icon: 'pi pi-fw pi-bookmark',
+                                path: '/hierarchy/submenu_2/submenu_2_1',
                                 items: [
                                     { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
                                     { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' }
@@ -130,6 +140,7 @@ export class AppMenu {
                             {
                                 label: 'Submenu 2.2',
                                 icon: 'pi pi-fw pi-bookmark',
+                                path: '/hierarchy/submenu_2/submenu_2_2',
                                 items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' }]
                             }
                         ]
